@@ -5,3 +5,11 @@
 ## パーマリンク
 できそうだけど試してない
 http://jekyllrb-ja.github.io/docs/permalinks/
+
+
+## TOC(目次)
+http://www.seanbuscay.com/blog/jekyll-toc-markdown/
+```md
+* TOC
+{:toc}
+```
