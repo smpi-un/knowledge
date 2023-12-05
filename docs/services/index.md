@@ -53,3 +53,27 @@ networks:
     driver: bridge
 
 ```
+
+---
+https://discuss.codelibs.org/t/fess-14-7-localhost-8080-404-not-found/2146/3
+
+> sudo sysctl -w vm.max_map_count=262144
+
+
+## iroha Board
+
+https://qiita.com/tksarah/items/575c144c12499c0c7ec8
+
+
+## Open Project
+https://www.openproject.org/docs/installation-and-operations/installation/docker/
+
+```
+git clone https://github.com/opf/openproject-deploy --depth=1 --branch=stable/13 openproject
+
+cd openproject/compose
+
+docker compose pull
+
+OPENPROJECT_HTTPS=false docker compose up -d
+```
