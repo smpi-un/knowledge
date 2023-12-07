@@ -169,8 +169,25 @@ https://activiti.gitbook.io/activiti-7-developers-guide/getting-started/getting-
 git clone https://github.com/Activiti/activiti-cloud-examples
 cd activiti-cloud-examples/docker-compose
 ```
-うまく行かない。
+makeが入っていなければ入れて、modeler起動。
+```sh
+apt install make -y
+make modeler
+```
+ただし、Makefileを書き換え。
+```
+COMPOSE := docker compose
+```
 
+初期ID/パスワード
+modeler/password
+
+モデラーは起動できた。で、これ回すのどうするの？UIは別途用意しなきゃならない？
+
+https://at-sushi.com/pukiwiki/pukiwiki.php?Java%20Activiti%20Explorer
+http://labo-blog.aegif.jp/2013/07/activiti-bpm-platform2activiti-explorer.html
+```sh
+```
 
 ## Exment
 [https://exment.net/docs/#/ja/install_docker]
@@ -181,6 +198,79 @@ cd docker-exment/build/php81_mariadb
 docker compose -f docker-compose.mariadb.yml -f docker-compose.yml up
 ```
 
+公式うまくいかない。
+
+以下
+https://zenn.dev/avot/articles/f657f8ec709df6
+
+docker-compose.yml
+```yml
+version: '3'
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - 8080:80
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - www-data:/var/www
+    depends_on:
+      - php
+
+  php:
+    build: ./php
+    volumes:
+      - www-data:/var/www
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    ports:
+      - 13306:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: exment_database
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_USER: exment_user
+      MYSQL_PASSWORD: secret
+
+#  phpmyadmin:
+#    image: phpmyadmin/phpmyadmin:latest
+#    ports:
+#      - 8888:80
+#    depends_on:
+#      - db
+
+# volumes を定義する
+volumes:
+  # volume の名前を指定
+  # Exmentのインストールパス
+  www-data:
+    # Compose の外ですでに作成済みの volume を指定する場合は ture を設定する。
+    # そうすると、 docker-compose up 時に Compose は volume を作成しようとしません。
+    # かつ、指定した volume が存在しないとエラーを raise します。
+    # external: true
+  # mysql dbのインストールパス
+  mysql-data:
+  # external: true
+
+```
+php/Dockerfile
+
+```
+FROM php:8.0-fpm
+
+# install php-ext
+RUN apt-get update && apt-get install -y \
+  git vim libonig-dev libzip-dev unzip libxml2-dev libpng-dev default-mysql-client \
+  && docker-php-ext-install mbstring mysqli dom gd zip pdo_mysql \
+  && apt-get clean
+~~~
+```
+
+わかるません。  
 
 ## GroupSession
 
@@ -206,4 +296,16 @@ ADD OpenJDK11U-jdk_x64_linux_hotspot_11.0.15_10.tar.gz /usr/local/java
 ENV JAVA_HOME="/usr/local/java/jdk-11.0.15+10"
 ENV PATH="$JAVA_HOME/bin:$PATH"
 
+```
+
+
+## SHIRASAGI
+https://github.com/shin73/shirasagi-docker
+
+
+```
+git clone git@github.com:shin73/shirasagi-docker.git
+cd shirasagi-docker
+git clone git@github.com:shirasagi/shirasagi.git
+docker compose up -d
 ```
