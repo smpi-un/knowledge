@@ -169,3 +169,41 @@ https://activiti.gitbook.io/activiti-7-developers-guide/getting-started/getting-
 git clone https://github.com/Activiti/activiti-cloud-examples
 cd activiti-cloud-examples/docker-compose
 ```
+うまく行かない。
+
+
+## Exment
+[https://exment.net/docs/#/ja/install_docker]
+```sh
+git clone https://github.com/exment-git/docker-exment.git
+cd docker-exment/build/php81_mariadb
+# docker compose -f docker-compose.yml up
+docker compose -f docker-compose.mariadb.yml -f docker-compose.yml up
+```
+
+
+## GroupSession
+
+docker-compose.yml
+```yml
+version: '3'
+
+services:
+  tomcat:
+    container_name: my-gsession-test
+    build: ./tomcat9
+    ports:
+    - "8080:8080"
+    volumes:
+    - ./webapps:/usr/local/tomcat/webapps
+```
+
+Dockerfile
+```dockerfile
+FROM tomcat:9.0.58
+ADD OpenJDK11U-jdk_x64_linux_hotspot_11.0.15_10.tar.gz /usr/local/java
+
+ENV JAVA_HOME="/usr/local/java/jdk-11.0.15+10"
+ENV PATH="$JAVA_HOME/bin:$PATH"
+
+```

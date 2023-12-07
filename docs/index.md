@@ -30,4 +30,6 @@ https://qiita.com/nyanko-box/items/52aace19cb99fb1146c2
 - [githubpage](./githubpage)
 - [env](./env)
 - [python](./python/)
+- [languages](./languages/)
+- [recipes](./recipes/)
 
