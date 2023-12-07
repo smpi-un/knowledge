@@ -26,6 +26,7 @@ powershell start-process "%PROGRAM_PATH%sleep_timer.bat" -verb runas
 
 ## Shutdown
 
+shutdown_timer.bat
 ```bat
 cmd /c shutdown -a
 set /P MINUTE="min:"
