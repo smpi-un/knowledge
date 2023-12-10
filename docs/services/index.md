@@ -16,6 +16,8 @@ Fessをdocker composeコマンドで起動します。
 ```
 docker compose -f compose.yaml -f compose-opensearch2.yaml up -d
 ```
+初期パスワード
+admin / admin
 
 
 ### compose.yml
@@ -77,6 +79,7 @@ docker compose pull
 
 OPENPROJECT_HTTPS=false docker compose up -d
 ```
+初期パスワードは admin/admin
 ## Moodle
 https://github.com/bitnami/containers/blob/main/bitnami/moodle/docker-compose.yml
 ```yml
@@ -160,6 +163,9 @@ volumes:
 
 ```
 
+### 初期パスワード
+https://mebee.info/2021/05/07/post-33655/
+user / bitnami でログイン
 
 ## Activiti
 

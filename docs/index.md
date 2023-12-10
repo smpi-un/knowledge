@@ -6,6 +6,15 @@
 * TOC
 {:toc}
 
+- [services](./services/)
+- [githubpage](./githubpage)
+- [env](./env)
+- [python](./python/)
+- [languages](./languages/)
+- [recipes](./recipes/)
+- [apis](./apis/)
+- [products](./products/)
+
 - [ ] FESS(ラズパイ？)
 - [ ] Canvas LMS
 - [ ] Open Project
@@ -24,12 +33,6 @@ https://qiita.com/nyanko-box/items/52aace19cb99fb1146c2
   - iroha Board
     https://irohaboard.irohasoft.jp/download/
 
+
+
 [文字起こし](文字起こし.ipynb)
-
-- [services](./services/)
-- [githubpage](./githubpage)
-- [env](./env)
-- [python](./python/)
-- [languages](./languages/)
-- [recipes](./recipes/)
-
