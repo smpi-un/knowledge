@@ -6,15 +6,59 @@ PDFに対してOCRかけて結果を溜め込み、検索できるようにす�
 ## よくわからんけど何ができるの？
 
 
+## インストールは？
+pytorchが必要なのでまるまる配布するとウンGBになります。
+以下の手順でインストールしてください。
+いっぱいダウンロードします。
 
-## 自分で動かすには？
+<!--
+### Pythonのインストール
+公式サイトを調べてインストール
+(不要？)
+-->
 
-以下コマンドでStreamli
+### ryeのインストール
+公式サイトを調べてインストール
+https://rye-up.com/guide/installation/
+
+### gitのインストール
+公式サイトを調べてインストール
+https://git-scm.com/
+
+### ダウンロード
+gitを使ってクローン。
+```
+git clone git@github.com:smpi-un/KMSearch.git
+```
+
+### 初期化
+ryeを使ってPythonおよび依存するライブラリをインストール。
+いっぱいダウンロードします。注意。
+
+フォルダ移動
+```
+cd KMSearch
+```
+
+同期コマンドを実行。
+```
+rye sync
+```
+
+
+## サンプル実行
+
+以下コマンドでStreamliをインストール。
 
 ```
 pip install streamlit
+```
+
+実行。
+```
 streamlit samples/sample_server.py
 ```
+
 
 [TBD] WindowsならGUIアプリで。
 
