@@ -1,2 +1,3 @@
 
-- [toexe](./toexe.md)
+- [toexe](./toexe/index)
+- [Streamlit](./streamlit/index)

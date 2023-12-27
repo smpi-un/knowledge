@@ -53,9 +53,10 @@ streamlitを活用できなか？
 PDF正立。Windowsのみ。
 [https://github.com/smpi-un/CrunePDF](https://github.com/smpi-un/CrunePDF)
 
-### [作りかけ] KMSearch
+### [作りかけ] [KMSearch](products/kmsearch)
 画像やPDFに対してOCRかけてファイル内検索。ついでにExcelとかも検索できるかも。
 [https://github.com/smpi-un/KMSearch](https://github.com/smpi-un/KMSearch)
+
 
 ### [作りかけ] File2QR
 ファイルをQRコードに変換。小さいサイズなら受け渡しに使えるかも。
