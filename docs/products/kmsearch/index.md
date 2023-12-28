@@ -56,7 +56,7 @@ pip install streamlit
 
 実行。
 ```
-streamlit samples/sample_server.py
+streamlit run samples/sample_server.py
 ```
 
 
