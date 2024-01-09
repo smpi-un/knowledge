@@ -7,3 +7,10 @@ remote_theme: pages-themes/architect@v0.2.0
 
 title: [技術メモ]
 description: [Umm...]
+
+markdown: CommonMarkGhPages
+commonmark:
+  extensions:
+    - autolink
+    - strikethrough
+    - table
