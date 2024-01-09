@@ -1,8 +1,17 @@
 plugins:
   - jekyll-sitemap
   - jekyll-remote-theme # add this line to the plugins list if you already have one
+google_analytics: G-14BR8NWGGQ
 
-remote_theme: pages-themes/architect@v0.2.0
+# remote_theme: pages-themes/architect@v0.2.0
+remote_theme: jekyll-theme-minimal
 
-title: [The title of your site]
-description: [A short description of your site's purpose]
+title: [技術メモ]
+description: [Umm...]
+
+markdown: CommonMarkGhPages
+commonmark:
+  extensions:
+    - autolink
+    - strikethrough
+    - table
