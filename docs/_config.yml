@@ -4,7 +4,10 @@ plugins:
 google_analytics: G-14BR8NWGGQ
 
 # remote_theme: pages-themes/architect@v0.2.0
-remote_theme: jekyll-theme-minimal
+# remote_theme: jekyll-theme-minimal
+remote_theme: mmistakes/jekyll-theme-basically-basic
+# remote_theme: "jeffreytse/jekyll-theme-yat"
+
 
 title: [技術メモ]
 description: [Umm...]
