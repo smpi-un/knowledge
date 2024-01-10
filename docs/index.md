@@ -6,6 +6,7 @@
 [rss](https://github.com/smpi-un/knowledge/commits/main.atom)
 
 * TOC
+
 {:toc}
 
 ## Link
@@ -22,8 +23,8 @@
 - [products](./products/)
 
 - [ ] FESS(ラズパイ？)
-- [ ] Canvas LMS
-- [ ] Open Project
+- [x] Canvas LMS
+- [x] Open Project
 ## 気になるもの
 
 https://book.mynavi.jp/manatee/about/
