@@ -76,8 +76,3 @@ PDF正立。Windowsのみ。
 ### cclip
 クリップボードから情報取得する。Windowsのみ。
 [https://github.com/smpi-un/cclip](https://github.com/smpi-un/cclip)
-
-# ?
-![](./unnamed.jpg)
-![](./1691058652659-3fb23b8f1dc77410-3fe2fe8de7fa1666.webp)
-![](./1691149525315-3fd44f2af58dcbae-3fea1205acb9751c.webp)
