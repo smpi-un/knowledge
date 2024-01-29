@@ -54,6 +54,11 @@ streamlitを活用できなか？
 トリガー後の動作はバッチ起動とかWebhookとかかんたんなののみ用意しておく。
 スクリプト拡張もいいかも。悪意のある人がいなければ。
 
+### Streamlit
+- geminiにgptも追加
+- OCR部分はEasyOCR使う
+
+
 ## 成果物リンク
 ### CrunePDF
 PDF正立。Windowsのみ。
@@ -71,3 +76,6 @@ PDF正立。Windowsのみ。
 ### cclip
 クリップボードから情報取得する。Windowsのみ。
 [https://github.com/smpi-un/cclip](https://github.com/smpi-un/cclip)
+
+# ?
+![](./unnamed.jpg)
