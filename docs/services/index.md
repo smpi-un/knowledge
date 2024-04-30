@@ -1,3 +1,25 @@
+## Misskey
+国産マイクロSNS
+https://ja.wikipedia.org/wiki/Misskey
+
+## SandStorm
+サービスの導入支援？サービス。
+
+
+## Jisti-Meet
+ウェブミーティング
+
+## Miniflux
+https://miniflux.app/
+RSSリーダ
+
+## FreshRSS
+RSSリーダ
+https://github.com/FreshRSS/FreshRSS
+
+## Tiny Tiny RSS
+RSSリーダ
+https://tt-rss.org/
 
 ## FESS
 https://fess.codelibs.org/ja/setup.html

@@ -9,3 +9,15 @@ https://api-portal.nhk.or.jp/
 
 ## Feedly
 https://sysart-magazin.com/2021/05/24/feedly-api%e3%82%92%e4%bd%bf%e7%94%a8%e3%81%97%e3%81%a6%e3%81%bf%e3%82%8b%ef%bc%88%ef%bc%92%ef%bc%89/
+
+# 逆引きAPI/コマンド/ライブラリ
+
+## 翻訳
+## OCR
+## 文字起こし
+## 日本語関係
+## 動画・音楽
+## 画像分析
+## 文章生成
+## 画像生成
+
