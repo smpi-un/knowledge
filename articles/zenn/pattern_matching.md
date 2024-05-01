@@ -3,7 +3,7 @@ title: "attern Matching比較メモ" # 記事のタイトル
 emoji: "🧩" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["pattern matching", "python", "nim"] # タグ。["markdown", "rust", "aws"]のように指定する
-published: false # 公開設定（falseにすると下書き）
+published: true # 公開設定（falseにすると下書き）
 ---
 
 # attern Matching比較メモ
@@ -75,9 +75,9 @@ Jimmy Page, Robert Plant
 Data not found
 ```
 
-# パターンマッチングのコード
+## パターンマッチングのコード
 
-## Python 3.12
+### Python 3.12
 
 ```python
 import json
@@ -136,7 +136,7 @@ match json.loads(json_str):
     print(message)
 ```
 
-## Nim
+### Nim
 ```nim
 import json
 import fusion/matching
@@ -199,7 +199,7 @@ case parseJson(jsonStr):
     echo "unknown"
 ```
 
-## Dart
+### Dart
 ```dart
 import 'dart:convert';
 
@@ -261,4 +261,13 @@ void main() {
   };
 
 }
+```
+
+---
+そのうち作る
+### Haxe
+```haxe
+```
+### Elixir
+```elixir
 ```
