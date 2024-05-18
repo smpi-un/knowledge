@@ -1,12 +1,12 @@
 ---
-title: "attern Matching比較メモ" # 記事のタイトル
+title: "Pattern Matching比較メモ" # 記事のタイトル
 emoji: "🧩" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["pattern matching", "python", "nim"] # タグ。["markdown", "rust", "aws"]のように指定する
 published: true # 公開設定（falseにすると下書き）
 ---
 
-# attern Matching比較メモ
+# Pattern Matching比較メモ
 
 JSONのパターンマッチングをやりたい。
 
@@ -125,15 +125,17 @@ else:
     '''
 
 match json.loads(json_str):
-  case {'success': True, 'data': data}:
+  case {'success': True, 'data': list() as data}:
     for item in data:
         match item:
-            case {'type': 'music', 'composer': composer}:
+            case {'type': 'music', 'composer': str() as composer}:
                 print(composer)
-            case {'type': 'book', 'author': author}:
+            case {'type': 'book', 'author': str() as author}:
                 print(author)
-  case {'success': False, 'error': {'message': message}}:
+  case {'success': False, 'error': {'message': str() as message}}:
     print(message)
+  case _:
+    print('???')
 ```
 
 ### Nim
