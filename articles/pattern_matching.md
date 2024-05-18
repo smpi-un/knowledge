@@ -3,7 +3,7 @@ title: "Pattern Matching比較メモ" # 記事のタイトル
 emoji: "🧩" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["pattern matching", "python", "nim"] # タグ。["markdown", "rust", "aws"]のように指定する
-published: true # 公開設定（falseにすると下書き）
+published: false # 公開設定（falseにすると下書き）
 ---
 
 # Pattern Matching比較メモ
@@ -247,22 +247,23 @@ void main() {
   final jsonData = jsonDecode(jsonStr);
 
   switch(jsonData){
-    case {'success': true, "data": final data}:
+    case {'success': true, "data": List<dynamic> data}:
       for(final item in data){
         switch(item) {
-          case {"type": "book", "author": final author}:
+          case {"type": "book", "author": String author}:
             print(author);
-          case {"type": "music", "composer": final composer}:
+          case {"type": "music", "composer": String composer}:
             print(composer);
         };
       }
-    case {'success': false, 'error': {'message': final message}}:
+    case {'success': false, 'error': {'message': String message}}:
       print(message);
     default:
       print('');
   };
 
 }
+
 ```
 
 ---
