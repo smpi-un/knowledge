@@ -53,17 +53,51 @@ readFirstArgT =
     # get the second argument, the first is the executable's path
     List.get args 1 |> Result.mapErr (\_ -> ZeroArgsGiven) |> Task.fromResult
 
+incrementedNumbers =
+    [1, 2, 3]
+        |> List.reverse
+        |> List.map \num ->
+            z = num * num
+            z + 1
+
 
 main =
-  firstArg = "."
+  # firstArg = "."
+  args = Arg.list!
+  args |> Str.joinWith " " |> Stdout.line!
+  firstArg = args |> List.get 1 |> Result.withDefault "/home/smpiun/Documents/Journey/journey-1681648736745_DL"
   dirList = firstArg |> Path.fromStr |> listJsonInDir!
+  Task.forEach dirList \path->
+    if path |> Path.display |> Str.endsWith ".json" then
+      # pathStr = (path |> Path.display)
+      jsonContent <- path |> File.readUtf8 |> Task.await
+      decodedValue = jsonContent |> parseJourneyGoogleCloudJson10
+      text = decodedValue |> Result.map (\y -> y.text) |> Result.withDefault ""
+      Stdout.line text
+    else
+      Task.ok {}
+main3 =
+  # firstArg = "."
+  args = Arg.list!
+  args |> Str.joinWith " " |> Stdout.line!
+  firstArg = args |> List.get 1 |> Result.withDefault "/home/smpiun/Documents/Journey/journey-1681648736745_DL"
+  dirList = firstArg |> Path.fromStr |> listJsonInDir!
+  jsonFilePaths : List Path
   jsonFilePaths = dirList |> List.keepIf (\x -> x |> Path.display |> Str.endsWith ".json")
   jsonFilePaths |> List.map Path.display |>  Str.joinWith "\n" |> Stdout.line!
-  jsonContents = jsonFilePaths |> List.map File.readUtf8 |> Task.seq!
-  jsonStr = jsonContents |> List.first |> Task.fromResult!
+  jsonContentsRes : List (Result Str _)
+  jsonContents = jsonFilePaths |> readFiles!
+  decodedValues = jsonContents |> List.map parseJourneyGoogleCloudJson10
+  decodedValues |> List.map (\x -> x |> Result.map (\y -> y.text) |> Result.withDefault "") |> Str.joinWith "\n" |> Stdout.line! 
 
-  decodedValue = parseJourneyGoogleCloudJson10 jsonStr |> Task.fromResult!
-  Stdout.line! decodedValue.text
+
+readFiles : List Path -> Task (List Str) *
+readFiles = \paths ->
+  readTask = paths |> List.map (\path -> path |> File.readUtf8 |> Task.result)
+  readRes = readTask |> Task.seq!
+  jsonContents = readRes |> List.keepOks (\x -> x)
+  Task.ok jsonContents
+  
 
 # json10ライブラリを使ったJsonパース
 parseJourneyGoogleCloudJson10: Str -> Result JourneyGoogleDrive _
