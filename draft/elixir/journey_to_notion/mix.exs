@@ -16,7 +16,8 @@ defmodule JourneyToNotion.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :jason, :dotenv]
+      extra_applications: [:logger, :jason, :dotenv, :cowboy]
+      # extra_applications: [:logger, :jason]
     ]
   end
 
@@ -28,6 +29,9 @@ defmodule JourneyToNotion.MixProject do
       {:jason, "~> 1.2"},
       {:httpoison, "~> 1.8"},
       {:dotenv, "~> 3.0"},
+      {:mogrify, "~> 0.9.1"},
+      {:porcelain, "~> 2.0"},
+      {:plug_cowboy, "~> 2.0"},
     ]
   end
 end
