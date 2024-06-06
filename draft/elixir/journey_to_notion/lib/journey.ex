@@ -18,7 +18,7 @@ defmodule Journey do
     # |> Enum.filter_map(&parse_json/1, fn {:ok, data} -> data end)
   end
 
-  defp load_journey(path) do
+  def load_journey(path) do
     case path |> File.read do
       {:ok, data} -> case parse_json(path, data) do
         {:ok, _} = journey_res -> journey_res

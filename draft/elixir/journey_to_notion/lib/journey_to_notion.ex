@@ -29,37 +29,24 @@ defmodule Main do
     Application.ensure_all_started(:httpoison)
 
     results = Journey.read_json_files(dir)
+    # {:ok, ids} = Notion.get_existing_ids()
     results |> Enum.map(
       fn {:journey_cloud, journey, _, _} ->
-        add_res = Notion.add_row(journey.id, journey.tags, journey.dateOfJournal, journey.text, [ "/home/smpiun/Documents/1681642386485-3fea9157b297f3ce-3fd84fcd19f24294.webp"])
-        case add_res do
-          {:error, reason} -> reason |> IO.inspect()
-          _ -> ""
-        end
-        add_res
+        # if journey.id not in ids do
+          photo_paths = []
+          add_res = Notion.add_row(journey.id, journey.tags, journey.dateOfJournal, journey.text |> HtmlToPlaintext.convert, journey.text |> HtmlToMarkdown.convert, photo_paths)
+          case add_res do
+            {:error, reason} -> reason |> IO.inspect()
+            _ -> ""
+          end
+          add_res
+        # end
       end)
     |> IO.inspect()
   end
 
   def run2 do
-    id = "12345"
-    tag = "Elixir"
-    date = "2023-01-01"
-    content = "This is a test content."
-
-    # https://elixirforum.com/t/httpoison-request-1st-argument-the-table-identifier-does-not-refer-to-an-existing-ets-table-when-calling-function-outside-module/53444/2
-    Application.ensure_all_started(:httpoison)
-
-    # notion_api_token = System.get_env("NOTION_API_TOKEN")
-    # notion_database_id = System.get_env("NOTION_DATABASE_ID")
-    # {notion_api_token, notion_database_id} |> IO.inspect()
-
-    case Notion.add_row(id, tag, date, content, []) do
-
-      {:ok, response} -> IO.inspect(response, label: "Success")
-      {:error, reason} -> IO.inspect(reason, label: "Error")
-      _ -> IO.inspect("Error!!!")
-    end
+    Notion.delete_all_rows()
   end
   def run3 do
     Application.ensure_all_started(:porcelain)
@@ -79,4 +66,6 @@ defmodule Main do
 
 end
 
-# Main.run1()
+if true do
+  Main.run1()
+end
