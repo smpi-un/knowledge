@@ -5,14 +5,15 @@ defmodule Notion do
 
   @notion_url "https://api.notion.com/v1/pages"
   @blocks_url "https://api.notion.com/v1/blocks"
-
+  @timeout 400_000
+  @recv_timeout 800_000
   Application.ensure_all_started(:httpoison)
   Application.ensure_all_started(:dotenv)
   Dotenv.load()
   @notion_api_token System.get_env("NOTION_API_TOKEN")
   @notion_database_id System.get_env("NOTION_DATABASE_ID")
 
-  def add_row(id, tags, date, text, content, photo_paths) do
+  def add_row(id, tags, date, text, address, location, content, photo_paths) do
     Dotenv.load()
     if row_exists?(id) do
       "skipped: #{id}" |> IO.inspect()
@@ -24,24 +25,33 @@ defmodule Notion do
         {"Content-Type", "application/json"},
         {"Notion-Version", "2021-08-16"}
       ]
+      location_str = case location do
+        %{lat: lat, lng: nil} -> ""
+        %{lat: nil, lng: lng} -> ""
+        %{lat: lat, lng: lng} -> "#{lat},#{lng}"
+        nil -> ""
+      end
 
       body = %{
         "parent" => %{"database_id" => @notion_database_id},
         "properties" => %{
-          "ID" => %{"title" => [%{"text" => %{"content" => id}}]},
-          "タグ" => %{"multi_select" => tags |> Enum.map(fn tag -> %{"name" => tag} end)},
-          "日付" => %{"date" => %{"start" => date}},
-          "本文" => %{"rich_text" => [%{"type" => "text", "text" => %{"content" => text}}]},
+          "id" => %{"title" => [%{"text" => %{"content" => id}}]},
+          "tags" => %{"multi_select" => tags |> Enum.map(fn tag -> %{"name" => tag} end)},
+          "dateOfJournal" => %{"date" => %{"start" => date}},
+          "text" => %{"rich_text" => [%{"type" => "text", "text" => %{"content" => text}}]},
+          "address" => %{"rich_text" => [%{"type" => "text", "text" => %{"content" => address}}]},
+          "location" => %{"rich_text" => [%{"type" => "text", "text" => %{"content" => location_str}}]},
+          "number of attachments" => %{"number" => photo_paths |> Enum.count},
         },
-        "children" => [
-          %{
-            "object" => "block",
-            "type" => "paragraph",
-            "paragraph" => %{
-              "rich_text" => [%{"type" => "text", "text" => %{"content" => content}}]
-            }
-          }
-        ]
+        # "children" => [
+        #   %{
+        #     "object" => "block",
+        #     "type" => "paragraph",
+        #     "paragraph" => %{
+        #       "rich_text" => [%{"type" => "text", "text" => %{"content" => content}}]
+        #     }
+        #   }
+        # ]
       }
       |> Jason.encode!()
 
@@ -49,6 +59,10 @@ defmodule Notion do
         {:ok, %HTTPoison.Response{status_code: 200, body: response_body}} ->
           response = Jason.decode!(response_body)
           page_id = response["id"]
+          add_content(page_id, content, headers)
+          if location_str != "" do
+            add_map_to_page(page_id, location_str, headers)
+          end
           # add_images_to_page(page_id, photo_paths, headers)
           {:ok, response}
         {:ok, %HTTPoison.Response{status_code: status_code, body: response_body}} ->
@@ -57,6 +71,31 @@ defmodule Notion do
           {:error, reason}
       end
     end
+  end
+
+  def add_content(page_id, content, headers) do
+    content
+    |> String.split("\n")
+    |> Enum.map(fn line ->
+      %{
+        "object" => "block",
+        "type" => "paragraph",
+        "paragraph" => %{
+          "rich_text" => [%{"type" => "text", "text" => %{"content" => line}}]
+        }
+      }
+    end)
+    |> Enum.each(fn block ->
+      body =
+        %{"children" => [block]}
+        |> Jason.encode!()
+
+      api_url = "#{@blocks_url}/#{page_id}/children"
+
+      options = [timeout: @timeout, recv_timeout: @recv_timeout]
+      {:ok, %HTTPoison.Response{status_code: 200, body: response_body}} = HTTPoison.patch(api_url, body, headers, options)
+      # response_body |> IO.inspect()
+    end)
   end
 
 
@@ -75,9 +114,37 @@ defmodule Notion do
       }
       |> Jason.encode!()
 
-      HTTPoison.patch("#{@blocks_url}/#{page_id}/children", body, headers)
+      options = [timeout: @timeout, recv_timeout: @recv_timeout]
+      {:ok, %HTTPoison.Response{status_code: 200, body: response_body}} = HTTPoison.patch("#{@blocks_url}/#{page_id}/children", body, headers, options)
     end)
   end
+
+  defp add_map_to_page(page_id, lat_lng, headers) do
+    lat_lng
+    |> String.split(",")
+    |> case do
+      [lat, lng] ->
+        map_url = "https://www.google.com/maps?q=#{lat},#{lng}&z=15&output=embed"
+
+        body = %{
+          "children" => [
+            %{
+              "object" => "block",
+              "type" => "embed",
+              "embed" => %{"url" => map_url}
+            }
+          ]
+        }
+        |> Jason.encode!()
+
+        options = [timeout: @timeout, recv_timeout: @recv_timeout]
+        {:ok, %HTTPoison.Response{status_code: 200, body: response_body}} = HTTPoison.patch("#{@blocks_url}/#{page_id}/children", body, headers, options)
+
+      _ ->
+        IO.puts("Invalid latitude and longitude format")
+    end
+  end
+
 
   defp get_all_page_ids(headers) do
     query_url = "https://api.notion.com/v1/databases/#{@notion_database_id}/query"
@@ -126,7 +193,7 @@ defmodule Notion do
         response = Jason.decode!(body)
         res = response["results"]
         |> Enum.map(fn result ->
-          result["properties"]["ID"]["title"]
+          result["properties"]["id"]["title"]
           |> Enum.at(0)
           |> Map.get("text")
           |> Map.get("content")
@@ -156,7 +223,7 @@ defmodule Notion do
 
     body = %{
       "filter" => %{
-        "property" => "ID",
+        "property" => "id",
         "title" => %{
           "contains" => id
         }
@@ -170,7 +237,7 @@ defmodule Notion do
         total_results = response["results"] |> length()
         total_results > 0
       {:ok, response} ->
-        # response |> IO.inspect()
+        response |> IO.inspect()
         true
       {:error, reason} ->
         reason |> IO.inspect()
@@ -192,8 +259,12 @@ defmodule Notion do
     Enum.each(page_ids, fn page_id ->
       archive_url = "#{@notion_url}/#{page_id}"
       body = %{"archived" => true} |> Jason.encode!()
-      {:ok, res} = HTTPoison.patch(archive_url, body, headers)
-      res |> IO.inspect()
+      try do
+        {:ok, res} = HTTPoison.patch(archive_url, body, headers)
+      rescue
+        reason -> reason |> IO.inspect()
+      end
+
     end)
 
     {:ok, "All rows archived"}

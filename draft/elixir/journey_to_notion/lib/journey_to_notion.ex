@@ -34,7 +34,15 @@ defmodule Main do
       fn {:journey_cloud, journey, _, _} ->
         # if journey.id not in ids do
           photo_paths = []
-          add_res = Notion.add_row(journey.id, journey.tags, journey.dateOfJournal, journey.text |> HtmlToPlaintext.convert, journey.text |> HtmlToMarkdown.convert, photo_paths)
+          text = case journey.type do
+            "html" -> journey.text |> HtmlToPlaintext.convert |> String.slice(0, 1000-1)
+            "markdown" -> journey.text |> MarkdownToPlaintext.convert |> String.slice(0, 1000-1)
+          end
+          contents = case journey.type do
+            "html" -> journey.text |> HtmlToMarkdown.convert#  |> String.slice(0, 2000-1-87)
+            "markdown" -> journey.text#  |> String.slice(0, 2000-1-87)
+          end
+          add_res = Notion.add_row(journey.id, journey.tags, journey.dateOfJournal, text, journey.address, journey.location, contents, photo_paths)
           case add_res do
             {:error, reason} -> reason |> IO.inspect()
             _ -> ""
