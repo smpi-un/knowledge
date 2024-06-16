@@ -37,7 +37,7 @@ listJsonInDir = \path ->
   if path |> Path.isFile! then
     Task.ok [path]
   else if path |> Path.isDir! then
-    paths = Dir.list path!
+    paths = Dir.list! path
     recPaths = paths |> List.map listJsonInDir |> Task.seq!
     flattenPaths = recPaths |> List.join
     flattenPaths |> Task.ok

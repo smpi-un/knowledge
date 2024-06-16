@@ -10,6 +10,9 @@ import pf.Task
 import pf.Arg
 
 main =
+    a <- funsugarTest1 |> Task.await
+    a |> Str.joinWith "," |> Stdout.line!
+    # Stdout.line! (funsugarTest2 |> Task.await |> Str.joinWith ",")
     finalTask =
         # try to read the first command line argument
         readFirstArgT!
@@ -49,3 +52,17 @@ indentLines = \inputStr ->
     Str.split inputStr "\n"
     |> List.map (\line -> Str.concat "\t" line)
     |> Str.joinWith "\n"
+
+
+funsugarTest1 = 
+  arr = [1,2,3]
+  res = arr |> List.map \itm ->
+    itm * 2 |> Num.toStr
+  Task.ok res
+  
+
+funsugarTest2 = 
+  arr = [1,2,3]
+  itm <- arr |> List.map
+  res = itm * 2 |> Num.toStr
+  Task.ok res

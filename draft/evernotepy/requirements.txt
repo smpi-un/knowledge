@@ -1,0 +1,4 @@
+evernote
+requests
+requests_oauthlib
+python-dotenv

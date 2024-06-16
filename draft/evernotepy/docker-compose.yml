@@ -1,0 +1,13 @@
+# version: "3.9"
+
+services:
+  python2-app:
+    build: .
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - REQUESTS_CA_BUNDLE=/usr/src/app/ca-certs.pem
+
