@@ -20,7 +20,10 @@ defmodule Journey do
 
   def load_journey(path) do
     case path |> File.read do
-      {:ok, data} -> case parse_json(path, data) do
+      {:ok, data} -> case parse_json(path, data
+                          |> String.replace("1.797693134862316e+308", "null")
+                          |> String.replace("1.7976931348623157E308", "null")
+                          ) do
         {:ok, _} = journey_res -> journey_res
         error -> error
       end
@@ -41,6 +44,7 @@ defmodule Journey do
     "location" => location,
     "weather" => weather,
     "tags" => tags,
+    "type" => type,
   } = d}) do
     l = case location do
       %{"lat"=> lat, "lng"=> lng} -> %{lat: lat, lng: lng}
@@ -59,6 +63,7 @@ defmodule Journey do
       location: l,
       weather: w,
       tags: tags,
+      type: type,
     }
     {:ok, {:journey_cloud, data, path, []}}
   end
@@ -101,6 +106,7 @@ defmodule Journey do
       weather: w,
       music: %{artist: musicArtist, title: musicTitle},
       tags: tags,
+      type: type,
     }
     {:ok, {:journey_cloud, data, path, photos}}
   end
