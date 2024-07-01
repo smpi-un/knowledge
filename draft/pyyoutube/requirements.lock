@@ -6,7 +6,22 @@
 #   features: []
 #   all-features: false
 #   with-sources: false
+#   generate-hashes: false
 
 -e file:.
+beautifulsoup4==4.12.3
+    # via pyyoutube
+certifi==2024.6.2
+    # via requests
+charset-normalizer==3.3.2
+    # via requests
+idna==3.7
+    # via requests
 pytube==15.0.0
     # via pyyoutube
+requests==2.32.3
+    # via pyyoutube
+soupsieve==2.5
+    # via beautifulsoup4
+urllib3==2.2.2
+    # via requests
