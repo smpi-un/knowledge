@@ -7,23 +7,24 @@
 #   all-features: false
 #   with-sources: false
 #   generate-hashes: false
-#   universal: false
 
 -e file:.
 beautifulsoup4==4.12.3
-    # via pyyoutube
-certifi==2024.6.2
+    # via bs4
+bs4==0.0.2
+    # via dlpdf
+certifi==2024.7.4
     # via requests
 charset-normalizer==3.3.2
     # via requests
 idna==3.7
     # via requests
-pillow==10.4.0
-    # via pyyoutube
-pytubefix==6.6.3
-    # via pyyoutube
+pdfkit==1.0.0
+    # via dlpdf
+pyperclip==1.9.0
+    # via dlpdf
 requests==2.32.3
-    # via pyyoutube
+    # via dlpdf
 soupsieve==2.5
     # via beautifulsoup4
 urllib3==2.2.2
