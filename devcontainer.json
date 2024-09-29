@@ -1,0 +1,11 @@
+// devcontainer.json
+{
+    "name": "Nim Development Container",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "postCreateCommand": "choosenim stable", // choosenimで安定版をインストール
+    "features": {
+        "ghcr.io/devcontainers/features/git:1": {}, // Gitを追加
+    }
+}
